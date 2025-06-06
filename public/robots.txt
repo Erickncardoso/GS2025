@@ -1,0 +1,27 @@
+User-agent: *
+Allow: /
+
+# Otimizações para PWA
+Allow: /manifest.json
+Allow: /sw.js
+Allow: /icons/
+Allow: /favicon.svg
+
+# Páginas importantes
+Allow: /map
+Allow: /relatar
+Allow: /comunidade
+Allow: /alertas
+Allow: /doacoes
+
+# Bloqueios
+Disallow: /api/
+Disallow: /.well-known/
+Disallow: /admin/
+Disallow: /private/
+
+# Sitemap (quando implementado)
+# Sitemap: https://seudominio.vercel.app/sitemap.xml
+
+# Crawl-delay para respeitar o servidor
+Crawl-delay: 1

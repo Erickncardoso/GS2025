@@ -1,0 +1,32 @@
+
+<svg width="384" height="384" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="waterGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="dropGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="240" fill="url(#waterGradient)" stroke="#1e40af" stroke-width="8"/>
+  
+  <!-- Water Drop Shape -->
+  <path d="M256 120 C200 180, 200 240, 256 280 C312 240, 312 180, 256 120 Z" fill="url(#dropGradient)" opacity="0.9"/>
+  
+  <!-- Wave Pattern -->
+  <path d="M120 300 Q180 280, 240 300 Q300 320, 360 300 Q420 280, 480 300 L480 400 Q420 380, 360 400 Q300 420, 240 400 Q180 380, 120 400 Z" fill="#ffffff" opacity="0.2"/>
+  
+  <!-- Community Dots -->
+  <circle cx="180" cy="220" r="12" fill="#ffffff" opacity="0.8"/>
+  <circle cx="332" cy="220" r="12" fill="#ffffff" opacity="0.8"/>
+  <circle cx="256" cy="180" r="8" fill="#ffffff" opacity="0.6"/>
+  
+  <!-- Alert Triangle -->
+  <path d="M256 320 L276 360 L236 360 Z" fill="#fbbf24" stroke="#f59e0b" stroke-width="2"/>
+  <circle cx="256" cy="345" r="3" fill="#f59e0b"/>
+  <rect x="254" y="330" width="4" height="8" fill="#f59e0b"/>
+</svg>

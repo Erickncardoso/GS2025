@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>alaganao - Flood Watch Community</title>
+
+    <!-- PWA Meta Tags -->
+    <meta
+      name="description"
+      content="Plataforma colaborativa para monitoramento e prevenção de enchentes"
+    />
+    <meta name="theme-color" content="#2563eb" />
+    <meta name="background-color" content="#ffffff" />
+    <meta name="display" content="standalone" />
+    <meta name="orientation" content="portrait" />
+
+    <!-- Apple PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="alaganao" />
+
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="/icons/icon-152x152.svg" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.svg" />
+    <link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.svg" />
+    <link
+      rel="apple-touch-icon"
+      sizes="128x128"
+      href="/icons/icon-128x128.svg"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="/icons/icon-144x144.svg"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="/icons/icon-152x152.svg"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="192x192"
+      href="/icons/icon-192x192.svg"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="384x384"
+      href="/icons/icon-384x384.svg"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="512x512"
+      href="/icons/icon-512x512.svg"
+    />
+
+    <!-- Standard Icons -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/icons/icon-32x32.svg"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/icons/icon-16x16.svg"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Microsoft Windows Meta Tags -->
+    <meta name="msapplication-TileColor" content="#2563eb" />
+    <meta name="msapplication-TileImage" content="/icons/icon-144x144.svg" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://alaganao.com/" />
+    <meta property="og:title" content="alaganao - Flood Watch Community" />
+    <meta
+      property="og:description"
+      content="Plataforma colaborativa para monitoramento e prevenção de enchentes"
+    />
+    <meta property="og:image" content="/icons/icon-512x512.svg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://alaganao.com/" />
+    <meta property="twitter:title" content="alaganao - Flood Watch Community" />
+    <meta
+      property="twitter:description"
+      content="Plataforma colaborativa para monitoramento e prevenção de enchentes"
+    />
+    <meta property="twitter:image" content="/icons/icon-512x512.svg" />
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/bgShero.jpg" as="image" />
+
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//api.supabase.co" />
+
+    <!-- Security -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  </head>
+
+  <body class="bg-gray-50">
+    <div id="root"></div>
+    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+      // Register Service Worker
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", async () => {
+          try {
+            const registration = await navigator.serviceWorker.register(
+              "/sw.js",
+              {
+                scope: "/",
+              }
+            );
+
+            console.log(
+              "Service Worker registered successfully:",
+              registration
+            );
+
+            // Handle updates
+            registration.addEventListener("updatefound", () => {
+              const newWorker = registration.installing;
+
+              if (newWorker) {
+                newWorker.addEventListener("statechange", () => {
+                  if (
+                    newWorker.state === "installed" &&
+                    navigator.serviceWorker.controller
+                  ) {
+                    // New version available
+                    if (confirm("Nova versão disponível! Deseja atualizar?")) {
+                      newWorker.postMessage({ type: "SKIP_WAITING" });
+                      window.location.reload();
+                    }
+                  }
+                });
+              }
+            });
+
+            // Handle controller change
+            navigator.serviceWorker.addEventListener("controllerchange", () => {
+              window.location.reload();
+            });
+          } catch (error) {
+            console.error("Service Worker registration failed:", error);
+          }
+        });
+      }
+
+      // Install prompt handling
+      let deferredPrompt;
+
+      window.addEventListener("beforeinstallprompt", (e) => {
+        console.log("PWA install prompt triggered");
+        e.preventDefault();
+        deferredPrompt = e;
+
+        // Show custom install button
+        showInstallButton();
+      });
+
+      function showInstallButton() {
+        // Create install button if it doesn't exist
+        if (!document.getElementById("pwa-install-btn")) {
+          const installBtn = document.createElement("button");
+          installBtn.id = "pwa-install-btn";
+          installBtn.innerHTML = "📱 Instalar App";
+          installBtn.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 14px;
+            animation: slideIn 0.3s ease-out;
+          `;
+
+          installBtn.addEventListener("click", handleInstallClick);
+          document.body.appendChild(installBtn);
+
+          // Add animation keyframes
+          if (!document.getElementById("pwa-styles")) {
+            const style = document.createElement("style");
+            style.id = "pwa-styles";
+            style.textContent = `
+              @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+              }
+              #pwa-install-btn:hover {
+                background: #1d4ed8;
+                transform: translateY(-2px);
+                transition: all 0.2s ease;
+              }
+            `;
+            document.head.appendChild(style);
+          }
+        }
+      }
+
+      async function handleInstallClick() {
+        if (!deferredPrompt) return;
+
+        const installBtn = document.getElementById("pwa-install-btn");
+        if (installBtn) {
+          installBtn.style.display = "none";
+        }
+
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+
+        console.log("PWA install outcome:", outcome);
+        deferredPrompt = null;
+      }
+
+      // Handle app installed
+      window.addEventListener("appinstalled", (e) => {
+        console.log("PWA was installed successfully");
+
+        const installBtn = document.getElementById("pwa-install-btn");
+        if (installBtn) {
+          installBtn.remove();
+        }
+
+        // Optional: Show thank you message
+        setTimeout(() => {
+          if (confirm("App instalado com sucesso! Deseja abrir o app agora?")) {
+            window.location.href = "/map";
+          }
+        }, 1000);
+      });
+
+      // Network status handling
+      function updateOnlineStatus() {
+        const isOnline = navigator.onLine;
+        document.body.classList.toggle("offline", !isOnline);
+
+        if (!isOnline) {
+          showOfflineIndicator();
+        } else {
+          hideOfflineIndicator();
+        }
+      }
+
+      function showOfflineIndicator() {
+        if (!document.getElementById("offline-indicator")) {
+          const indicator = document.createElement("div");
+          indicator.id = "offline-indicator";
+          indicator.innerHTML = "📡 Modo Offline";
+          indicator.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #ef4444;
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            z-index: 9999;
+          `;
+          document.body.appendChild(indicator);
+        }
+      }
+
+      function hideOfflineIndicator() {
+        const indicator = document.getElementById("offline-indicator");
+        if (indicator) {
+          indicator.remove();
+        }
+      }
+
+      // Listen for online/offline events
+      window.addEventListener("online", updateOnlineStatus);
+      window.addEventListener("offline", updateOnlineStatus);
+
+      // Check initial status
+      updateOnlineStatus();
+    </script>
+  </body>
+</html>
