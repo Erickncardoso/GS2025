@@ -1,0 +1,8 @@
+
+project_id = "wvztvonyrwbevrvtcmql"
+
+[functions.flood-reports]
+verify_jwt = false
+
+[functions.auth]
+verify_jwt = false
