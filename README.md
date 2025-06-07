@@ -1,4 +1,4 @@
-# 🌊 Aaganao
+# 🌊 Alaganao
 
 ## 📋 Sobre o Projeto
 
